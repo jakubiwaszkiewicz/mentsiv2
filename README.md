@@ -6,5 +6,10 @@ You have to have dataset of photos of dogs and cats to train or test model. Here
 ```console
   foo@bar:~$ python dogs_vs_cats_script.py
 ```
-```'\]]
+## Test on dir named test
+```console
+  foo@bar:~$ python 
+```
+```console
+  foo@bar:~$ python 
 ```

@@ -1,13 +1,10 @@
-import random
-import seaborn as sns
-sns.set_theme()
+from random import randint
 import torch
 from torch import nn
 from torch.nn import CrossEntropyLoss
-from torch.utils.data import DataLoader, Subset
-from torchvision import datasets, transforms
-from tqdm import tqdm
-from math import ceil
+import torchvision
+from torchvision import transforms
+
 # Setup device-agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -62,7 +59,7 @@ model.eval()
 if torch.cuda.is_available():
     model.cuda()
 
-randint = random.randint(0, 1)
+randint = randint(0, 1)
 
 if randint == 0:
   rand_class = "cat"
@@ -71,7 +68,7 @@ elif randint == 1:
 
 img_path = f'dogs_vs_cats/test/{rand_class}s/{rand_class}.18.jpg'
 
-import torchvision
+
 # Load in custom image and convert the tensor values to float32
 image = torchvision.io.read_image(str(img_path)).type(torch.float32)
 

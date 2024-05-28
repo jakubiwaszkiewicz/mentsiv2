@@ -4,41 +4,14 @@ from torch import nn
 # Setup device-agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-
-
 train_dir = "dogs_vs_cats/train"
 test_dir = "dogs_vs_cats/test"
-
-import random
-import glob
-
-random.seed(713)
-
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set_theme()
 
 import torch
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
-
-IMAGE_WIDTH=128
-IMAGE_HEIGHT=128
-IMAGE_SIZE=(IMAGE_WIDTH, IMAGE_HEIGHT)
-
 # Write transform for image
-data_transform = transforms.Compose([
-  transforms.Resize(size=IMAGE_SIZE), # Resize the images to IMAGE_SIZE
-  transforms.RandomHorizontalFlip(p=0.5), # Flip the images randomly on the horizontal, p = probability of flip, 0.5 = 50% chance=
-  transforms.ToTensor() # Turn the image into a torch.Tensor and converts all pixel values from 0 to 255 to be between 0.0 and 1.0
-])
-
-from torchvision import datasets
-
-
-from torch.utils.data import DataLoader
-
+from math import ceil
 
 # Note that batch size will now be 1.
 
@@ -72,7 +45,7 @@ test_num_images = 2000
 BATCH_SIZE = 32
 # rand
 torch.manual_seed(713)
-
+torch.cuda.manual_seed(713)
 # Create a shuffled list of train images
 train_img_list = torch.randperm(len(train_data_augmented_all)).tolist()
 train_subset = train_img_list[:train_num_images]
@@ -86,7 +59,6 @@ train_data_subset = Subset(train_data_augmented_all, train_subset)
 
 # Create the test subset dataset
 test_data_subset = Subset(test_data_augmented_all, test_subset)
-
 
 
 train_dataloader_augmented = DataLoader(train_data_subset, batch_size=BATCH_SIZE, shuffle=True)
@@ -132,7 +104,7 @@ class ConvolutionalNeuralNetwork(nn.Module):
 # Instantiate an object.
 model = ConvolutionalNeuralNetwork().to(device)
 
-from math import ceil
+
 
 def train_step(
     step_turn: int,
@@ -245,12 +217,6 @@ def analysis(
     results["test_acc"].append(test_acc)
   # 6. Return the filled results at the end of the epochs
   return results
-
-
-
-# Set random seeds
-torch.manual_seed(713)
-torch.cuda.manual_seed(713)
 
 # Set number of epochs
 NUM_EPOCHS = 3
